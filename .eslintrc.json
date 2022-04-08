@@ -13,6 +13,11 @@
   },
   "plugins": ["react"],
   "rules": {
-    "react/jsx-filename-extension": ["off"]
+    "react/jsx-filename-extension": ["off"],
+    "import/prefer-default-export": "off",
+    "no-unused-vars": "off",
+    "consistent-return": "off",
+    "no-return-assign": "off",
+    "no-undef": "off"
   }
 }

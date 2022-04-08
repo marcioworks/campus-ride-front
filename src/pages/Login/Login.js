@@ -5,15 +5,24 @@ import {
 import LockIcon from '@mui/icons-material/Lock';
 import { deepPurple } from '@mui/material/colors';
 import './style.css';
+import { getClient } from '../../services/user';
+import api from '../../services/api';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('aqui', email);
-    alert('clicado');
+    const authenticated = await api.post('/login', { email, password });
+    if (authenticated) {
+      const roles = await api.get(`/clients/getroles/${email}`);
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('token', authenticated.headers.authorization.substring(7));
+      localStorage.setItem('profiles', [roles.data]);
+      console.log(roles);
+      alert('cliente logado');
+    }
   };
 
   return (
@@ -60,7 +69,7 @@ function Login() {
                 />
                 <Button variant="contained" type="submit" fullWidth> Sign In </Button>
                 <Box display="flex" justifyContent="center">
-                  <Link href="/"> esqueceu a senha </Link>
+                  <Link href="/"> esqueceu a senha? </Link>
                 </Box>
               </form>
             </Paper>
